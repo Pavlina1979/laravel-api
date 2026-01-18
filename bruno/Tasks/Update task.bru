@@ -1,0 +1,27 @@
+meta {
+  name: Update task
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://127.0.0.1:8000/api/v1/tasks/11
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Write Bruno test - updated"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

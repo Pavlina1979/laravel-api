@@ -1,0 +1,27 @@
+meta {
+  name: Store a task
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/api/v1/tasks
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Write Bruno test"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

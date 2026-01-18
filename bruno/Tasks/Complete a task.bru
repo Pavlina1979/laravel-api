@@ -1,0 +1,27 @@
+meta {
+  name: Complete a task
+  type: http
+  seq: 6
+}
+
+patch {
+  url: http://127.0.0.1:8000/api/v1/tasks/11/complete
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "is_completed": true  
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
