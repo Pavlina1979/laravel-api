@@ -1,0 +1,28 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/api/auth/login
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "pavlina.malinkova@email.cz",
+    "password": "Jahod1979"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Logout
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/api/auth/logout
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: 4|NV5A4oHgS7eP9o3TijBl2QbOZT8nalcbs6xgML98b3c29972
+}
+
+body:json {
+  {
+    "email": "pavlina.malinkova@email.cz",
+    "password": "Jahod1979"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

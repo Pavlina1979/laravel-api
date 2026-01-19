@@ -1,0 +1,34 @@
+meta {
+  name: User
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://127.0.0.1:8000/api/user
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: 2|vRciHGMW7rFkinbB57OZA85MNtrdZna2fW1bwbmk1bd8df83
+}
+
+body:json {
+  {
+    "name": "Pavlína Malinková",
+    "email": "pavlina.malinkova@email.cz",
+    "password": "Jahod1979",
+    "password_confirmation": "Jahod1979"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Register
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:8000/api/auth/register
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Pavlína Malinková",
+    "email": "pavlina.malinkova@email.cz",
+    "password": "Jahod1979",
+    "password_confirmation": "Jahod1979"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
