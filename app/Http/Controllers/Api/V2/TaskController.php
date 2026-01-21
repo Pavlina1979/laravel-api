@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Http\Controllers\Api\V2;
+
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request;
+
+class TaskController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+
+        if ($request->user()->cannot('viewAny', Task::class)) {
+            abort(403);
+        }
+        //return TaskResource::collection(Task::all());
+        // return Task::all()->toResourceCollection();
+        return request()->user()->tasks()->get()->toResourceCollection();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreTaskRequest $request)
+    {
+        if ($request->user()->cannot('create', Task::class)) {
+            abort(403);
+        }
+        // $task = Task::create($request->validated() + ['user_id' => $request->user()->id]);
+        $task = $request->user()->tasks()->create($request->validated());
+
+        return $task->toResource();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Task $task, Request $request)
+    {
+        if ($request->user()->cannot('view', $task)) {
+            abort(403);
+        }
+        // return new TaskResource($task);
+        // return TaskResource::make($task);
+        return $task->toResource();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateTaskRequest $request, Task $task)
+    {
+        if ($request->user()->cannot('update', $task)) {
+            abort(403);
+        }
+
+        $task->update($request->validated());
+
+        return $task->toResource();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Task $task, Request $request)
+    {
+        if ($request->user()->cannot('delete', $task)) {
+            abort(403);
+        }
+        $task->delete();
+
+        return response()->noContent();
+    }
+}

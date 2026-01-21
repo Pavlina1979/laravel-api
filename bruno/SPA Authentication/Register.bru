@@ -1,0 +1,50 @@
+meta {
+  name: Register
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://127.0.0.1:8000/auth/register
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "name": "Pepa Novak",
+    "email": "pepa@ydepa.cz",
+    "password": "password123",
+    "password_confirmation": "password123",
+  }
+}
+
+script:pre-request {
+  bru.sendRequest({
+      url: "http://127.0.0.1:8000/sanctum/csrf-cookie",
+      method: "GET"
+  }, function (err, res, { cookies }) {
+      if (!err) {
+          const xsrfToken = cookies.has('XSRF-TOKEN') ? cookies.get('XSRF-TOKEN') : null;
+          if (xsrfToken) {
+              bru.request.headers.add({ 
+  	            key: 'X-XSRF-TOKEN', 
+  	            value: xsrfToken 
+  	          });
+          } else {
+              console.error('XSRF-TOKEN not found in cookies');
+          }
+      } else {
+          console.error('CSRF Fetch Error:', err);
+      }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

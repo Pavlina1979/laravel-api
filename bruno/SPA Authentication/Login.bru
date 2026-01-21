@@ -1,0 +1,48 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/auth/login
+  body: json
+  auth: inherit
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "email": "purdy.monserrat@example.net",
+    "password": "password"
+  }
+}
+
+script:pre-request {
+  bru.sendRequest({
+      url: "http://127.0.0.1:8000/sanctum/csrf-cookie",
+      method: "GET"
+  }, function (err, res, { cookies }) {
+      if (!err) {
+          const xsrfToken = cookies.has('XSRF-TOKEN') ? cookies.get('XSRF-TOKEN') : null;
+          if (xsrfToken) {
+              bru.request.headers.add({ 
+  	            key: 'X-XSRF-TOKEN', 
+  	            value: xsrfToken 
+  	          });
+          } else {
+              console.error('XSRF-TOKEN not found in cookies');
+          }
+      } else {
+          console.error('CSRF Fetch Error:', err);
+      }
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
